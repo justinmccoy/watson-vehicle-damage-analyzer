@@ -23,14 +23,15 @@ require("dotenv").config({
 });
 
 const fs = require("fs");
-const VisualRecognitionV3 = require("watson-developer-cloud/visual-recognition/v3");
+const VisualRecognitionV3 = require("ibm-watson/visual-recognition/v3");
 const express = require("express");
 const application = express();
 const formidable = require("formidable");
 const WatsonVisRecSetup= require('./lib/watson-visRec-setup');
 
 const visual_recognition = new VisualRecognitionV3({
-    version: "2018-03-19"
+    	iam_apikey: process.env.VCAP_APP_API_KEY || process.env.API_KEY,
+	version: "2018-03-19"
 });
 
 var custom_classifier = null;
@@ -97,7 +98,7 @@ application.post("/uploadpic", function (req, result) {
         }
     });
 });
-const port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
+const port = process.env.PORT || process.env.VCAP_APP_PORT || 8888;
 
 application.listen(port, function () {
     console.log("Server running on port: %d", port);
